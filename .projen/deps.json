@@ -96,6 +96,22 @@
       "type": "build"
     },
     {
+      "name": "@aws-sdk/client-s3",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/client-sfn",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/client-textract",
+      "type": "runtime"
+    },
+    {
+      "name": "@types/aws-lambda",
+      "type": "runtime"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "^2.1.0",
       "type": "runtime"

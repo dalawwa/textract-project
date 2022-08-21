@@ -4,7 +4,14 @@ const project = new awscdk.AwsCdkTypeScriptApp({
 	defaultReleaseBranch: 'main',
 	name: 'textractstack',
 
-	deps: ['aws-cdk-lib', 'constructs'],
+	deps: [
+		'aws-cdk-lib',
+		'constructs',
+		'@types/aws-lambda',
+		'@aws-sdk/client-s3',
+		'@aws-sdk/client-textract',
+		'@aws-sdk/client-sfn',
+	],
 	prettier: true,
 	prettierOptions: {
 		settings: {
