@@ -382,7 +382,7 @@ def submit_response(event: dict, context, response_status: str, error_message: s
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "02dab444aec438cb5bbf188a4279fb181c900e1fb5037cdbec86055a38e085f6.zip",
+          "S3Key": "f6024442c25d39d942ea001e4bd5a5446e29c13e46619098925837b95774d77c.zip",
         },
         "DeadLetterConfig": Object {
           "TargetArn": Object {
@@ -463,6 +463,11 @@ def submit_response(event: dict, context, response_status: str, error_message: s
                 ],
               },
             },
+            Object {
+              "Action": "textract:Get*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -508,7 +513,7 @@ def submit_response(event: dict, context, response_status: str, error_message: s
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ede59b2bf56c78620be5abad51cebf956221f111290b55277c6b860459a2edf6.zip",
+          "S3Key": "baaac7f3b7835e07a407339aff1784243301aef21ac7d6126842ed23441afc9d.zip",
         },
         "DeadLetterConfig": Object {
           "TargetArn": Object {
@@ -566,6 +571,43 @@ def submit_response(event: dict, context, response_status: str, error_message: s
               "Effect": "Allow",
               "Resource": "*",
             },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "textractsourcebucket2F288444",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "textractsourcebucket2F288444",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -619,7 +661,7 @@ def submit_response(event: dict, context, response_status: str, error_message: s
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "cc97ea07457e1990ab7efc4a091b415708c203a24449dd800d845f8f00d8e524.zip",
+          "S3Key": "c8981e8167bc97d2561a0422b1dbaea58cb0339a06554ebad42232744f4143ae.zip",
         },
         "DeadLetterConfig": Object {
           "TargetArn": Object {
@@ -725,6 +767,13 @@ def submit_response(event: dict, context, response_status: str, error_message: s
                   "textractlambdastatemachinelauncherDeadLetterQueue959AF8D4",
                   "Arn",
                 ],
+              },
+            },
+            Object {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "textractstatemachine5575249E",
               },
             },
           ],
@@ -844,18 +893,18 @@ def submit_response(event: dict, context, response_status: str, error_message: s
           "Fn::Join": Array [
             "",
             Array [
-              "{\\"StartAt\\":\\"start textract job\\",\\"States\\":{\\"start textract job\\":{\\"Next\\":\\"get textract job response\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"Resource\\":\\"arn:",
+              "{\\"StartAt\\":\\"start textract job\\",\\"States\\":{\\"start textract job\\":{\\"Next\\":\\"get textract job response\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"ResultPath\\":\\"$.guid\\",\\"Resource\\":\\"arn:",
               Object {
                 "Ref": "AWS::Partition",
               },
-              ":states:::lambda:invoke.waitForTaskToken\\",\\"Parameters\\":{\\"FunctionName\\":\\"",
+              ":states:::lambda:invoke\\",\\"Parameters\\":{\\"FunctionName\\":\\"",
               Object {
                 "Fn::GetAtt": Array [
                   "textractlambdastartjobF911B516",
                   "Arn",
                 ],
               },
-              "\\",\\"Payload\\":{\\"token.$\\":\\"$$.Task.Token\\"}}},\\"get textract job response\\":{\\"Next\\":\\"textract-success-response-state\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"Resource\\":\\"arn:",
+              "\\",\\"Payload.$\\":\\"$\\"}},\\"get textract job response\\":{\\"Next\\":\\"textract-success-response-state\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"Resource\\":\\"arn:",
               Object {
                 "Ref": "AWS::Partition",
               },
